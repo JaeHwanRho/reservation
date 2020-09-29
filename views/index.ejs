@@ -1,0 +1,52 @@
+<html>
+  <head>
+
+  </head>
+  <body>
+    <p>예약 접수 목록</p>
+    <div id="reservation_list">
+    </div>
+    <input id="name" type="text" placeholder="이름을 알려주세요"/>
+    <br>
+    <input id="restaurant" type="text" placeholder="식당 이름을 검색해주세요"/>
+    <input id="number_of_people" type="number" placeholder="인원수를 알려주세요"/>
+    <select id="time" name="time_selection" placeholder="방문할 시간을 선택해주세요">
+        <option value="select_time">시간선택</option>
+        <option value="1pm">13:00-14:00</option>
+        <option value="2pm">14:00-15:00</option>
+        <option value="3pm">15:00-16:00</option>
+        <option value="4pm">16:00-17:00</option>
+        <option value="5pm">17:00-18:00</option>
+        <option value="6pm">18:00-19:00</option>
+    </select>
+    <input onclick="saveReservation()" value="제출하기" type="button"/>
+
+  </body>
+  <script>
+    fetch('http://localhost:3000/users')
+      .then(res => res.json())
+      .then(data => {
+        /*alert(data.status);*/
+        const reservations = data.arr;
+        let html = '';
+        for (const reservation of reservations) {
+          const time = reservation.time;
+          html += '<p>' + time + '</p>'
+        }
+        document.getElementById('reservation_list').innerHTML = html;
+      })
+
+      function saveReservation() {
+        const name = document.getElementById('name').value;
+        const restaurant = document.getElementById('restaurant').value;
+        const number_of_people = document.getElementById('number_of_people').value;
+        const time = document.getElementById('time').value;
+
+        fetch('http://localhost:3000/users', {
+          "method": "POST",
+          "body": JSON.stringify({ name: name, restaurant: restaurant, number_of_people: number_of_people, time: time }),
+          "headers": { "Content-Type": "application/json" }
+        })
+      }
+  </script>
+</html>
