@@ -1,14 +1,20 @@
 var express = require('express');
 var router = express.Router();
 
+/*
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 const isLoggedin = require('../utils/isLoggedin')
+*/
 
 const pool = require('../utils/mysql');
-const pool_1 = pool.pool_1;
 
-/* const mysql = require('mysql2'); 
+/*
+const pool_1 = pool.pool;
+*/
+
+/*
+const mysql = require('mysql2'); 
 const mysql = require('mysql2/promise');
 const connection = mysql.createConnection({
   host: 'jaehwanrho.chop25b5mxib.ap-northeast-2.rds.amazonaws.com',
@@ -18,8 +24,9 @@ const connection = mysql.createConnection({
 })
 */
 
-/* GET users listing. */
-/*
+/* 
+GET users listing.
+
 router.get('/', function(req, res, next) {
   try{
     connection.query('SELECT * FROM new_table', function hello (err, results) {
@@ -39,8 +46,11 @@ router.get('/', function(req, res, next) {
   }
 });
 */
-/* promise 함수 */
-/* router.get('/', function(req, res, next) {
+
+/* 
+promise 함수
+
+router.get('/', function(req, res, next) {
   connection.query('SELECT * FROM new_table', function hello (err, results) {
     .then(results => {
       console.log(results)
@@ -62,8 +72,8 @@ const pool = mysql.createPool({
 
 router.get('/', async function(req, res, next) {
   try{
-    const connection = await pool_1.getConnection();
-    const [results] = await connection.query('SELECT * FROM new_table');
+    const connection = await pool.getConnection();
+    const [results] = await connection.query('SELECT * FROM reservation');
     connection.release();
     res.json({ status: 200, arr: results });
   } catch (err) {
@@ -74,11 +84,9 @@ router.get('/', async function(req, res, next) {
 
 router.post('/', async function(req, res, next) {
   try{
-    const { name, money, email, pwd } = req.body;
-    const connection = await pool_1.getConnection();
-    const pwdSalt = (await crypto.randomBytes(64)).toString('base64');
-    const hashedPwd = (crypto.pbkdf2Sync(pwd, pwdSalt, 100000, 64, 'SHA512')).toString('base64')
-    await connection.query('INSERT INTO new_table(name, money, email, hashed_pwd, pwd_salt) VALUES(?, ?, ?, ?, ?)', [name, money, email, hashedPwd, pwdSalt]);
+    const { name, restaurant, number_of_people, time } = req.body;
+    const connection = await pool.getConnection();
+    await connection.query('INSERT INTO reservation(name, restaurant, number_of_people, time) VALUES(?, ?, ?, ?)', [name, restaurant, number_of_people, time]);
     connection.release();
     res.json({ status: 201, msg: '저장 성공!' });
   } catch (err) {
@@ -87,6 +95,22 @@ router.post('/', async function(req, res, next) {
   }
 });
 
+/*
+router.post('/', async function(req, res, next) {
+  try{
+    const { name, restaurant, number_of_people, time, pwd } = req.body;
+    const connection = await pool_1.getConnection();
+    const pwdSalt = (await crypto.randomBytes(64)).toString('base64');
+    const hashedPwd = (crypto.pbkdf2Sync(pwd, pwdSalt, 100000, 64, 'SHA512')).toString('base64')
+    await connection.query('INSERT INTO reservation(name, restaurant, number_of_people, time, hashed_pwd, pwd_salt) VALUES(?, ?, ?, ?, ?, ?)', [name, restaurant, number_of_people, time, hashedPwd, pwdSalt]);
+    connection.release();
+    res.json({ status: 201, msg: '저장 성공!' });
+  } catch (err) {
+    console.log(err);
+    res.json({ status: 500, msg: '알 수 없는 문제!' });
+  }
+});
+*/
 
 /*
 router.put('/', async function(req, res, next) {
@@ -101,6 +125,7 @@ router.delet('/', async function(req, res, next) {
 });
 */
 
+/*
 const pool_2 = pool.pool_2;
 
 router.get('/', async function(req, res, next) {
@@ -114,14 +139,16 @@ router.get('/', async function(req, res, next) {
     res.json({ status: 500, msg: '테이블명 오타로 인한 서버 에러입니다!' });
   }
 });
+*/
 
+/*
 require('dotenv').config();
 
 router.post('/login', async function(req, res, next) {
   try{
     const { email, pwd } = req.body;
     const connection = await pool_1.getConnection();
-    const [users] = await connection.query('SELECT * FROM new_table WHERE email = ?', [email]);
+    const [users] = await connection.query('SELECT * FROM reservation WHERE email = ?', [email]);
     if (users.length === 0) {
       return res.json({ status: 401, msg: '없는 이메일입니다!' })
     }
@@ -139,8 +166,9 @@ router.post('/login', async function(req, res, next) {
     res.json({ status: 500, msg: '알 수 없는 문제!' });
   }
 });
+*/
 
-
+/*
 // GET users/4/profile 방식으로 :id 자리에 실제 값 넣어서 호출함
 router.get('/:id/profile', async function(req, res, next) {
   try{
@@ -161,7 +189,9 @@ router.get('/:id/profile', async function(req, res, next) {
     res.json({ status: 500, msg: '테이블명 오타로 인한 서버 에러입니다!' });
   }
 });
+*/
 
+/*
 // GET users/4/profile 방식으로 :id 자리에 실제 값 넣어서 호출함
 // 가운데 있는 isLoggedin을 미들웨어라 함
 router.get('/:id/profile', isLoggedin, async function(req, res, next) {
@@ -180,5 +210,6 @@ router.get('/:id/profile', isLoggedin, async function(req, res, next) {
     res.json({ status: 500, msg: '테이블명 오타로 인한 서버 에러입니다!' });
   }
 });
+*/
 
 module.exports = router;

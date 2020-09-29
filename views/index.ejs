@@ -9,9 +9,11 @@
     <input id="name" type="text" placeholder="이름을 알려주세요"/>
     <br>
     <input id="restaurant" type="text" placeholder="식당 이름을 검색해주세요"/>
-    <input id="number_of_people" type="number" placeholder="인원수를 알려주세요"/>
-    <select id="time" name="time_selection" placeholder="방문할 시간을 선택해주세요">
-        <option value="select_time">시간선택</option>
+    <br>
+    <input id="number_of_people" type="text" placeholder="인원수를 알려주세요"/>
+    <br>
+    <select id="time" type="text" name="time_selection" placeholder="방문할 시간을 선택해주세요">
+        <option value="미선택">시간선택</option>
         <option value="1pm">13:00-14:00</option>
         <option value="2pm">14:00-15:00</option>
         <option value="3pm">15:00-16:00</option>
@@ -19,6 +21,7 @@
         <option value="5pm">17:00-18:00</option>
         <option value="6pm">18:00-19:00</option>
     </select>
+    <br>
     <input onclick="saveReservation()" value="제출하기" type="button"/>
 
   </body>
@@ -30,8 +33,9 @@
         const reservations = data.arr;
         let html = '';
         for (const reservation of reservations) {
+          const name = reservation.name;
           const time = reservation.time;
-          html += '<p>' + time + '</p>'
+          html += '<p>' + name + '</p>' + '<p>' + time + '</p>'
         }
         document.getElementById('reservation_list').innerHTML = html;
       })
