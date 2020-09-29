@@ -10,7 +10,7 @@
     <br>
     <input id="restaurant" type="text" placeholder="식당 이름을 검색해주세요"/>
     <br>
-    <input id="number_of_people" type="text" placeholder="인원수를 알려주세요"/>
+    <input id="number_of_people" type="number" placeholder="인원수를 알려주세요"/>
     <br>
     <select id="time" type="text" name="time_selection" placeholder="방문할 시간을 선택해주세요">
         <option value="미선택">시간선택</option>
@@ -26,10 +26,12 @@
 
   </body>
   <script>
+   /* 
     fetch('http://localhost:3000/users')
       .then(res => res.json())
       .then(data => {
         /*alert(data.status);*/
+        /*
         const reservations = data.arr;
         let html = '';
         for (const reservation of reservations) {
@@ -39,6 +41,8 @@
         }
         document.getElementById('reservation_list').innerHTML = html;
       })
+      */
+      
 
       function saveReservation() {
         const name = document.getElementById('name').value;
