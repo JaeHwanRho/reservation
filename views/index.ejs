@@ -13,7 +13,7 @@
       <p id="lists">예약 접수 목록</p>
       <div id="reservation_list">
       </div>
-      <form id="mainarea">
+      <form id="mainarea" action="/" method="post" enctype="multipart/form-data" accept-charset="utf-8">
         <div id="container">
           <input id="name" type="text" placeholder="이름을 알려주세요"/>
           <br>
@@ -22,7 +22,7 @@
           <input id="number_of_people" type="number" placeholder="인원수를 알려주세요"/>
           <br>
           <select id="time" type="text" name="time_selection" placeholder="방문할 시간을 선택해주세요">
-              <option value="미선택" id="time_na">시간선택</option>
+              <option value="미선택" id="time_na">(시간선택)</option>
               <option value="1pm">13:00-14:00</option>
               <option value="2pm">14:00-15:00</option>
               <option value="3pm">15:00-16:00</option>
@@ -31,7 +31,7 @@
               <option value="6pm">18:00-19:00</option>
           </select>
           <br>
-          <textarea id="textarea" placeholder="가게에 남기실 말씀을 입력해주세요"></textarea>
+          <textarea id="textarea" placeholder="가게에 남기실 말씀을 입력해주세요(선택)"></textarea>
           <br>
           <input id="submit" onclick="saveReservation()" value="제출하기" type="button"/>
         </div>
@@ -68,7 +68,7 @@
           "body": JSON.stringify({ name: name, restaurant: restaurant, number_of_people: number_of_people, time: time }),
           "headers": { "Content-Type": "application/json" }
         })
-        alert("저장성공!")
+        alert("예약 접수 완료")
       }
       let form = document.getElementById('mainarea')
       const name = document.getElementById('name').value;
@@ -286,9 +286,9 @@
       padding: 12px 20px;
       margin: 8px 0;
       box-sizing: border-box;
-      background-color: rgb(51, 40, 29);
+      background-color: rgb(63, 32, 2);
       color: white;
-      border: 3px solid rgb(51, 40, 29);
+      border: 3px solid rgb(63, 32, 2);
       border-radius: 10px;
     }
 
