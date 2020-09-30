@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
+
 /*
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
@@ -20,7 +21,7 @@ const connection = mysql.createConnection({
   host: 'jaehwanrho.chop25b5mxib.ap-northeast-2.rds.amazonaws.com',
   user: 'jack8023',
   password: 'jack2799',
-  database: 'EXERCISE'
+  database: 'project'
 })
 */
 
@@ -65,7 +66,7 @@ const pool = mysql.createPool({
   host: 'jaehwanrho.chop25b5mxib.ap-northeast-2.rds.amazonaws.com',
   user: 'jack8023',
   password: 'jack2799',
-  database: 'EXERCISE'
+  database: 'project'
 })
 */
 
