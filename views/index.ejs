@@ -85,7 +85,7 @@
           }
         }).then(res => {
           console.log(res) // log response object
-          return res.json({ status: 201, msg: '저장 성공!' }) // return json data from the server
+          return res.json({ status: 201, msg: '예약이 접수되었습니다!' }) // return json data from the server
         })
         .then(response => alert(response.msg))
         .catch(error => console.error('Error:', error))

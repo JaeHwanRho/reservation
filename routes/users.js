@@ -8,21 +8,44 @@ const jwt = require('jsonwebtoken');
 const isLoggedin = require('../utils/isLoggedin')
 */
 
-const pool = require('../utils/mysql');
-
-/*
-const pool_1 = pool.pool;
-*/
-
 /*
 const mysql = require('mysql2'); 
-const mysql = require('mysql2/promise');
 const connection = mysql.createConnection({
   host: 'jaehwanrho.chop25b5mxib.ap-northeast-2.rds.amazonaws.com',
   user: 'jack8023',
   password: 'jack2799',
   database: 'project'
 })
+*/
+
+/*
+const mysql = require('mysql2/promise');
+let connection
+mysql.createConnection({
+  host: 'jaehwanrho.chop25b5mxib.ap-northeast-2.rds.amazonaws.com',
+  user: 'jack8023',
+  password: 'jack2799',
+  database: 'project'
+})
+.then((results) => {
+  connection = results;
+})
+*/
+
+const mysql = require('mysql2/promise');
+const pool = mysql.createPool({
+  host: 'jaehwanrho.chop25b5mxib.ap-northeast-2.rds.amazonaws.com',
+  user: 'jack8023',
+  password: 'jack2799',
+  database: 'project'
+})
+
+/*
+const pool = require('../utils/mysql');
+*/
+
+/*
+const pool_1 = pool.pool;
 */
 
 /* 
