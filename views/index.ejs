@@ -3,26 +3,41 @@
 
   </head>
   <body>
-    <p>예약 접수 목록</p>
-    <div id="reservation_list">
+    <div id="header" class="header">
+      <div id="headerarea">
+        <h1 id="logo">Pick-Up 예약</h1>
+        <div id="menu">Menu Lists</div>
+      </div>
     </div>
-    <input id="name" type="text" placeholder="이름을 알려주세요"/>
-    <br>
-    <input id="restaurant" type="text" placeholder="식당 이름을 검색해주세요"/>
-    <br>
-    <input id="number_of_people" type="number" placeholder="인원수를 알려주세요"/>
-    <br>
-    <select id="time" type="text" name="time_selection" placeholder="방문할 시간을 선택해주세요">
-        <option value="미선택">시간선택</option>
-        <option value="1pm">13:00-14:00</option>
-        <option value="2pm">14:00-15:00</option>
-        <option value="3pm">15:00-16:00</option>
-        <option value="4pm">16:00-17:00</option>
-        <option value="5pm">17:00-18:00</option>
-        <option value="6pm">18:00-19:00</option>
-    </select>
-    <br>
-    <input onclick="saveReservation()" value="제출하기" type="button"/>
+    <div class="body">
+      <p id="lists">예약 접수 목록</p>
+      <div id="reservation_list">
+      </div>
+      <form id="mainarea">
+        <div id="container">
+          <input id="name" type="text" placeholder="이름을 알려주세요"/>
+          <br>
+          <input id="restaurant" type="text" placeholder="식당 이름을 검색해주세요"/>
+          <br>
+          <input id="number_of_people" type="number" placeholder="인원수를 알려주세요"/>
+          <br>
+          <select id="time" type="text" name="time_selection" placeholder="방문할 시간을 선택해주세요">
+              <option value="미선택" id="time_na">시간선택</option>
+              <option value="1pm">13:00-14:00</option>
+              <option value="2pm">14:00-15:00</option>
+              <option value="3pm">15:00-16:00</option>
+              <option value="4pm">16:00-17:00</option>
+              <option value="5pm">17:00-18:00</option>
+              <option value="6pm">18:00-19:00</option>
+          </select>
+          <br>
+          <textarea id="textarea" placeholder="가게에 남기실 말씀을 입력해주세요"></textarea>
+          <br>
+          <input id="submit" onclick="saveReservation()" value="제출하기" type="button"/>
+        </div>
+      </form>
+    </div>
+    
 
   </body>
   <script>
@@ -42,8 +57,41 @@
         document.getElementById('reservation_list').innerHTML = html;
       })
       */
-      
+      function saveReservation() {
+        const name = document.getElementById('name').value;
+        const restaurant = document.getElementById('restaurant').value;
+        const number_of_people = document.getElementById('number_of_people').value;
+        const time = document.getElementById('time').value;
 
+        fetch('http://localhost:3000/users', {
+          "method": "POST",
+          "body": JSON.stringify({ name: name, restaurant: restaurant, number_of_people: number_of_people, time: time }),
+          "headers": { "Content-Type": "application/json" }
+        })
+        alert("저장성공!")
+      }
+      let form = document.getElementById('mainarea')
+      const name = document.getElementById('name').value;
+      const restaurant = document.getElementById('restaurant').value;
+      const number_of_people = document.getElementById('number_of_people').value;
+      const time = document.getElementById('time').value;
+      form.addEventListener('submit', (e) => {
+        e.preventDefault()
+        fetch('http://localhost:3000/users', {
+          "method": 'POST',
+          "body": JSON.stringify({ name: name, restaurant: restaurant, number_of_people: number_of_people, time: time }), 
+          "headers":{
+            'Content-Type': 'application/json'
+          }
+        }).then(res => {
+          console.log(res) // log response object
+          return res.json({ status: 201, msg: '저장 성공!' }) // return json data from the server
+        })
+        .then(response => alert(response.msg))
+        .catch(error => console.error('Error:', error))
+      })
+
+      /*
       function saveReservation() {
         const name = document.getElementById('name').value;
         const restaurant = document.getElementById('restaurant').value;
@@ -56,5 +104,194 @@
           "headers": { "Content-Type": "application/json" }
         })
       }
+      */
   </script>
+  <style>
+    #header {
+      width: 100%;
+      height: 75px;
+    }
+    #header {
+      position: relative;
+      background-color: rgb(51, 40, 29);
+    }
+    h1 {
+      font-family: "Times New Roman";
+      color: #F4F4F4;
+      display: block;
+      float: left;
+      font-size: 2em;
+      margin-block-start: 0.67em;
+      margin-block-end: 0.67em;
+      margin-inline-start: 30px;
+      margin-inline-end: 30px;
+    }
+    #menu {
+      font-family: "Times New Roman";
+      color: #F4F4F4;
+      display: block;
+      float: right;
+      font-size: 2em;
+      text-align: left;
+      margin-block-start: 0.67em;
+      margin-block-end: 0.67em;
+      margin-inline-start: 30px;
+      margin-inline-end: 30px;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      line-height: 22px;
+    }
+    .body::before  {    
+      padding: 0px;
+      content: ' ';
+      display: block;
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      opacity: 0.4;
+      background-image: url("https://img.freepik.com/free-photo/coffee-beans-with-props-making-coffee_1220-4536.jpg?size=626&ext=jpg");
+      background-repeat: no-repeat;
+      background-position: 50% 0;
+      -ms-background-size: cover;
+      -o-background-size: cover;
+      -moz-background-size: cover;
+      -webkit-background-size: cover;
+      background-size: cover;
+    }
+    .body {
+      position: relative;
+      background: #696969;
+      overflow: hidden;
+    }
+    .body p {
+      padding: 10px;
+      text-align: left;
+      z-index: 2;
+      position: relative;
+      color: #000;
+    } 
+    .body div {
+      padding: 10px;
+      text-align: left;
+      z-index: 2;
+      position: relative;
+      color: #000;
+    } 
+    #lists {
+      width: 600px;
+      margin: 50px auto;
+      color: black;
+    }
+    #container {
+      width: 700px;
+      height: 500px;
+      margin: 100px auto;
+      color: #fff;
+      position: relative;
+      background: white;
+      border: 1px solid white;
+      border-radius: 15px;
+
+    }
+    #name {
+      display : block;
+      margin : 0 auto;
+      width:600px;
+      height:50px;
+    }
+    #restaurant {
+      display : block;
+      margin : 0 auto;
+      width:600px;
+      height:50px;
+    }
+    #number_of_people {
+      display : block;
+      margin : 0 auto;
+      width:600px;
+      height:50px;
+    }
+    #time {
+      display : block;
+      margin : 0 auto;
+      width:600px;
+      height:50px;
+    }
+    #submit {
+      display : block;
+      margin : 0 auto;
+      width:600px;
+      height:50px;
+    }
+    #textarea {
+      display : block;
+      margin : 0 auto;
+      width:600px;
+      height:50px;
+    }
+    input::placeholder {
+      color: black;
+      padding: 0px;
+    }
+    #time_na {
+      padding: 10px;
+    }
+    textarea::placeholder {
+      color: black;
+      padding: 00px;
+    }
+    input[type=text] {
+      width: 100%;
+      padding: 12px 20px;
+      margin: 8px 0;
+      box-sizing: border-box;
+      border: 3px solid rgb(51, 40, 29);
+      border-radius: 10px;
+    }
+    input#name {
+      margin: auto;
+      position: center;
+    }
+    input[type=number] {
+      width: 100%;
+      padding: 12px 20px;
+      margin: 8px 0;
+      box-sizing: border-box;
+      border: 3px solid rgb(51, 40, 29);
+      border-radius: 10px;
+    }
+    select[type=text] {
+      width: 100%;
+      padding: 12px 20px;
+      margin: 8px 0;
+      box-sizing: border-box;
+      border: 3px solid rgb(51, 40, 29);
+      border-radius: 10px;
+    }
+    textarea {
+      width: 100%;
+      padding: 12px 20px;
+      margin: 8px 0;
+      box-sizing: border-box;
+      border: 3px solid rgb(51, 40, 29);
+      border-radius: 10px;
+    }
+    input[type=button] {
+      width: 100%;
+      padding: 12px 20px;
+      margin: 8px 0;
+      box-sizing: border-box;
+      background-color: rgb(51, 40, 29);
+      color: white;
+      border: 3px solid rgb(51, 40, 29);
+      border-radius: 10px;
+    }
+
+
+  </style>
 </html>
