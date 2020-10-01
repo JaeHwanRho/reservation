@@ -1,6 +1,15 @@
 var express = require('express');
 var router = express.Router();
 
+var mysql = require('mysql');
+var conn = mysql.createConnection({
+  host: 'jaehwanrho.chop25b5mxib.ap-northeast-2.rds.amazonaws.com',
+  user: 'jack8023',
+  password: 'jack2799',
+  database: 'project'
+});
+
+conn.connect();
 
 /*
 const crypto = require('crypto');
@@ -32,13 +41,15 @@ mysql.createConnection({
 })
 */
 
-const mysql = require('mysql2/promise');
-const pool = mysql.createPool({
+
+const mysql2 = require('mysql2/promise');
+const pool = mysql2.createPool({
   host: 'jaehwanrho.chop25b5mxib.ap-northeast-2.rds.amazonaws.com',
   user: 'jack8023',
   password: 'jack2799',
   database: 'project'
 })
+
 
 /*
 const pool = require('../utils/mysql');
