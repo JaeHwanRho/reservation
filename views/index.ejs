@@ -10,30 +10,68 @@
       </div>
     </div>
     <div class="body">
-      <p id="lists">예약 접수 목록</p>
       <div id="reservation_list">
+        <p id="lists" style="color: white; font-size: 25px;">예약 접수 목록</p>
+        <table id="table">
+        </table>
       </div>
-      <form id="mainarea" action="/index" method="post" enctype="multipart/form-data" accept-charset="utf-8">
+      <form id="mainarea" name="mainarea" action="/index" onsubmit="return validateForm()" method="post" enctype="multipart/form-data" accept-charset="utf-8">
         <div id="container">
-          <input id="name" type="text" placeholder="이름을 알려주세요"/>
+          <p id="info">예약을 추가하시려면 아래 양식을 채워주세요</p>
+          <input name="name" id="name" type="text" placeholder="이름을 알려주세요" required>
           <br>
-          <input id="restaurant" type="text" placeholder="식당 이름을 검색해주세요"/>
+          <input id="restaurant" type="text" placeholder="식당 이름을 검색해주세요" required>
           <br>
-          <input id="number_of_people" type="number" placeholder="인원수를 알려주세요"/>
+          <input id="number_of_people" type="number" min="1" max="100" placeholder="인원수를 알려주세요" required>
           <br>
-          <select id="time" type="text" name="time_selection" placeholder="방문할 시간을 선택해주세요">
+          <select id="time" type="text" name="time_selection" placeholder="방문할 시간을 선택해주세요" required>
               <option value="미선택" id="time_na">(시간선택)</option>
-              <option value="1pm">13:00-14:00</option>
-              <option value="2pm">14:00-15:00</option>
-              <option value="3pm">15:00-16:00</option>
-              <option value="4pm">16:00-17:00</option>
-              <option value="5pm">17:00-18:00</option>
-              <option value="6pm">18:00-19:00</option>
+              <option value="13시00분">13:00-13:30</option>
+              <option value="13시30분">13:30-14:00</option>
+              <option value="14시00분">14:00-14:30</option>
+              <option value="14시30분">14:30-15:00</option>
+              <option value="15시00분">15:00-15:30</option>
+              <option value="15시30분">15:30-16:00</option>
+              <option value="16시00분">16:00-16:30</option>
+              <option value="16시30분">16:30-17:00</option>
+              <option value="17시00분">17:00-17:30</option>
+              <option value="17시30분">17:30-18:00</option>
+              <option value="18시00분">18:00-18:30</option>
+              <option value="18시30분">18:30-19:00</option>
           </select>
           <br>
           <textarea id="textarea" placeholder="가게에 남기실 말씀을 입력해주세요(선택)"></textarea>
           <br>
-          <input id="submit" onclick="saveReservation()" value="제출하기" type="button"/>
+          <ul class="join_box">
+            <li class="checkBox01">
+              <ul class="clearfix">
+                <li>
+                  개인정보 수집 및 이용에 대한 안내(필수), 이벤트 등 프로모션 알림 메일 수신(선택)에 모두 동의합니다.
+                  <input type="checkbox" name="chkAll" id="chk" class="chkAll">
+                </li>
+                <p></p>
+              </ul>
+            </li>
+            <li class="checkBox02">
+              <ul class="clearfix">
+                <li>
+                  &emsp;개인정보 수집 및 이용에 대한 안내(필수)
+                  <input type="checkbox" name="chk">
+                </li>
+                <p></p>
+              </ul>
+            </li>
+            <li class="checkBox03">
+              <ul class="clearfix">
+                <li>
+                  &emsp;이벤트 등 프로모션 알림 메일 수신(선택)
+                  <input type="checkbox" name="chk">
+                </li>
+                <p></p>
+              </ul>
+            </li>
+          </ul>
+          <input id="submit" onclick="saveReservation()" value="예약하기" type="submit"/>
         </div>
       </form>
     </div>
@@ -41,55 +79,54 @@
 
   </body>
   <script>
-   /* 
-    fetch('http://localhost:3000/users')
+    function validateForm() {
+        var x = document.forms["mainarea"]["name"].value;
+        if (x == "") {
+          alert("이름을 입력해주세요!");
+          return false;
+        }
+      }
+
+    
+    fetch('http://http://54.180.102.99:3000//users')
       .then(res => res.json())
       .then(data => {
         /*alert(data.status);*/
-        /*
         const reservations = data.arr;
-        let html = '';
+        let html = '<tr> <th>이름</th> <th>식당</th> <th>인원 수</th> <th>예약 시간</th> </tr>';
         for (const reservation of reservations) {
           const name = reservation.name;
+          const restaurant = reservation.restaurant;
+          const number_of_people = reservation.number_of_people;
           const time = reservation.time;
-          html += '<p>' + name + '</p>' + '<p>' + time + '</p>'
+          html += '<tr>' + '<td>' + name + '</td>' + '<td>' + restaurant + '</td>' + '<td>' + number_of_people + '</td>' + '<td>' + time + '</td>' + '</tr>';
         }
-        document.getElementById('reservation_list').innerHTML = html;
+        document.getElementById('table').innerHTML = html;
       })
-      */
+
       function saveReservation() {
+        let form = document.getElementById('mainarea')
         const name = document.getElementById('name').value;
         const restaurant = document.getElementById('restaurant').value;
         const number_of_people = document.getElementById('number_of_people').value;
         const time = document.getElementById('time').value;
-
-        fetch('http://54.180.102.99:3000/users', {
-          "method": "POST",
-          "body": JSON.stringify({ name: name, restaurant: restaurant, number_of_people: number_of_people, time: time }),
-          "headers": { "Content-Type": "application/json" }
+        form.addEventListener('submit', (e) => {
+          e.preventDefault()
+          fetch('http://http://54.180.102.99:3000//users', {
+            "method": 'POST',
+            "body": JSON.stringify({ name: name, restaurant: restaurant, number_of_people: number_of_people, time: time }), 
+            "headers":{
+              'Content-Type': 'application/json'
+            }
+          }).then(res => {
+            console.log(res) // log response object
+            return res.json({ status: 201, msg: '예약이 접수되었습니다!' }) // return json data from the server
+          })
+          .then(response => alert(response.msg))
+          .catch(error => console.error('Error:', error))
         })
-        alert("예약 접수 완료")
       }
-      let form = document.getElementById('mainarea')
-      const name = document.getElementById('name').value;
-      const restaurant = document.getElementById('restaurant').value;
-      const number_of_people = document.getElementById('number_of_people').value;
-      const time = document.getElementById('time').value;
-      form.addEventListener('submit', (e) => {
-        e.preventDefault()
-        fetch('http://54.180.102.99:3000/users', {
-          "method": 'POST',
-          "body": JSON.stringify({ name: name, restaurant: restaurant, number_of_people: number_of_people, time: time }), 
-          "headers":{
-            'Content-Type': 'application/json'
-          }
-        }).then(res => {
-          console.log(res) // log response object
-          return res.json({ status: 201, msg: '예약이 접수되었습니다!' }) // return json data from the server
-        })
-        .then(response => alert(response.msg))
-        .catch(error => console.error('Error:', error))
-      })
+        
 
       /*
       function saveReservation() {
@@ -153,7 +190,7 @@
       width: 100%;
       height: 100%;
       z-index: 1;
-      opacity: 0.4;
+      opacity: 0.25;
       background-image: url("https://img.freepik.com/free-photo/coffee-beans-with-props-making-coffee_1220-4536.jpg?size=626&ext=jpg");
       background-repeat: no-repeat;
       background-position: 50% 0;
@@ -184,19 +221,50 @@
     } 
     #lists {
       width: 600px;
-      margin: 50px auto;
+      margin: 30px auto 0px;
       color: black;
+      font-color: white;
+    }
+    #table {
+      text-align: left;
+      width: 700px;
+      margin: 0px auto 30px;
+      padding: 5px;
+      color: white;
+      border: 1px solid white;
+      border-radius: 5px;
+    }
+    table, th {
+      border: 1px solid;
+      border-color:transparent;
+      color: white;
+      padding: 10px 5px;
+    }
+    table {
+      width: 100%;
+      border: 1px solid;
+      border-color:transparent;
+      color: white;
+      padding: 10px 5px;
+      background-color: rgb(17, 9, 7);
+      opacity: 0.9;
     }
     #container {
       width: 700px;
-      height: 500px;
-      margin: 100px auto;
-      color: #fff;
+      height: 900px;
+      margin: 0px auto;
+      color: #red;
       position: relative;
       background: white;
       border: 1px solid white;
       border-radius: 15px;
-
+    }
+    #info {
+      display : block;
+      margin : 0 auto;
+      width:600px;
+      height:50px;
+      font-weight: bold;
     }
     #name {
       display : block;
@@ -227,6 +295,8 @@
       margin : 0 auto;
       width:600px;
       height:50px;
+      letter-spacing: 10px;
+      font-size: 120%;
     }
     #textarea {
       display : block;
@@ -285,7 +355,28 @@
       border-radius: 10px;
       background-color: rgb(245, 245, 245);
     }
-    input[type=button] {
+    ul>li {
+      list-style: none;
+    }
+    a {
+      text-decoration: none;
+    }
+
+    ul.join_box {
+      width: 100%;
+      padding: 12px 20px;
+      margin: 8px 0;
+      box-sizing: border-box;
+      background-color: rgb(256, 256, 256);
+      text-align: left;
+    }
+    .checkBox01 {
+      font-weight: bold;
+    }
+    .checkBox,.checkBox>ul{position: relative;}
+    .checkBox>ul>li{float: left;}
+
+    input[type=submit] {
       width: 100%;
       padding: 12px 20px;
       margin: 8px 0;

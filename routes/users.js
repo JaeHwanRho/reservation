@@ -123,10 +123,10 @@ router.post('/', async function(req, res, next) {
     const connection = await pool.getConnection();
     await connection.query('INSERT INTO reservation(name, restaurant, number_of_people, time) VALUES(?, ?, ?, ?)', [name, restaurant, number_of_people, time]);
     connection.release();
-    res.json({ status: 201, msg: '저장 성공!' });
+    res.json({ status: 201, msg: '예약이 접수되었습니다!' });
   } catch (err) {
     console.log(err);
-    res.json({ status: 500, msg: '알 수 없는 문제!' });
+    res.json({ status: 500, msg: '알 수 없는 문제' });
   }
 });
 
