@@ -130,6 +130,19 @@ router.post('/', async function(req, res, next) {
   }
 });
 
+router.get('/:id/edit', async function(req, res, next) {
+  try{
+    const connection = await pool.getConnection();
+    const userId = req.params.id;
+    const [results] = await connection.query('SELECT * FROM reservation WHERE id =?', [userId]);
+    connection.release();
+    res.json({ status: 200, arr: results });
+  } catch (err) {
+    console.log(err);
+    res.json({ status: 500, msg: '테이블명 오타로 인한 서버 에러입니다!' });
+  }
+});
+
 /*
 router.post('/', async function(req, res, next) {
   try{

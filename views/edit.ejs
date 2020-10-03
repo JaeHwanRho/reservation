@@ -5,7 +5,7 @@
   <body>
     <div id="header" class="header">
       <div id="headerarea">
-        <h1 id="logo">Pick-Up 예약</h1>
+        <h1 id="logo">Pick-Up 예약 수정</h1>
         <div id="menu">Menu Lists</div>
       </div>
     </div>
@@ -17,7 +17,7 @@
       </div>
       <form id="mainarea" name="mainarea" action="/index" onsubmit="return validateForm()" method="post" enctype="multipart/form-data" accept-charset="utf-8">
         <div id="container">
-          <p id="info">예약을 추가하시려면 아래 양식을 채워주세요</p>
+          <p id="info">예약을 수정하시려면 아래 양식을 채워주세요</p>
           <input name="name" id="name" type="text" placeholder="이름을 알려주세요" required>
           <br>
           <input id="restaurant" type="text" placeholder="식당 이름을 검색해주세요" required>
@@ -134,22 +134,16 @@
       .then(data => {
         /*alert(data.status);*/
         const reservations = data.arr;
-        let html = '<tr> <th>id</th> <th>이름</th> <th>식당</th> <th>인원 수</th> <th>예약 시간</th> <th>예약 수정</th> </tr>';
+        let html = '<tr> <th>이름</th> <th>식당</th> <th>인원 수</th> <th>예약 시간</th> </tr>';
         for (const reservation of reservations) {
-          const id = reservation.id;
           const name = reservation.name;
           const restaurant = reservation.restaurant;
           const number_of_people = reservation.number_of_people;
           const time = reservation.time;
-          html += '<tr>' + '<td>' + id + '</td>' + '<td>' + name + '</td>' + '<td>' + restaurant + '</td>' + '<td>' + number_of_people + '</td>' + '<td>' + time + '</td>' + '<td>' + '<input id="edit" type="button" value="수정" onclick="movetoEditpage();">' + '</td>' + '</tr>';
+          html += '<tr>' + '<td>' + name + '</td>' + '<td>' + restaurant + '</td>' + '<td>' + number_of_people + '</td>' + '<td>' + time + '</td>' + '</tr>';
         }
         document.getElementById('table').innerHTML = html;
       })
-
-      function movetoEditpage() {
-          location.href="http://localhost:3000/users/37/edit"
-          }
-
 
       function saveReservation() {
         let form = document.getElementById('mainarea')
@@ -295,16 +289,6 @@
       padding: 10px 5px;
       background-color: rgb(17, 9, 7);
       opacity: 0.9;
-    }
-    #edit {
-      width: 70px;
-      padding: 1px 1px;
-      margin: 1px 0;
-      box-sizing: border-box;
-      background-color: white;
-      color: black;
-      border: 1px solid rgb(63, 32, 2);
-      border-radius: 5px;
     }
     #container {
       width: 700px;
